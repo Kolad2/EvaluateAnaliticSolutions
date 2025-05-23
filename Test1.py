@@ -10,7 +10,7 @@ def main():
     t = 0
     n_max = 30
     t = np.array([5., 25, 125, 625])
-    lt = np.array([5, 10, 25,])
+    lt = np.array([5, 10, 25])
     n = np.arange(0, n_max)
     #%%
     c_q = [get_qc(n_max, _t, q) for _t in t]
@@ -19,22 +19,43 @@ def main():
     mu = [np.sum(n * _c) for _c in c]
     sigma = [np.sum((n**2)*(_c - np.sum(n*_c))) for _c in c]
 
-    fig = plt.figure()
-    ax = [fig.add_subplot(2,2,i+1) for i in range(4)]
-    ax[0].set_xlabel("n")
-    ax[1].set_xlabel("n")
+    fig = plt.figure(figsize=(10, 5))
+    ax = [fig.add_subplot(1,2,i+1) for i in range(2)]
     for _c in c:
         _c = np.where(_c >= 0.0001, _c, np.nan)
-        _c = np.log(_c) + n*np.log(2)
-        ax[0].plot(n, _c, "-o", color="black", markersize=3)
-    #ax[0].set_ylim([np.log(0.001), 1.1])
+        _c = np.log(_c)/np.log(2) + n
+        ax[0].plot(-n, _c, "-o", color="black", markersize=3)
     for _c in c_q:
         _c = np.where(_c >= 0.0001, _c, np.nan)
-        _c = np.log(_c) + n*np.log(2)
-        ax[1].plot(_c, "-o", color="black", markersize=3)
-    #ax[1].set_ylim([-80, 1.1])
+        _c = np.log(_c)/np.log(2) + n
+        ax[1].plot(-n,_c, "-o", color="black", markersize=3)
 
-    ax[2].plot(lt, mu)
+    ax[0].plot([0 ,-25], [-2, 25-2], "--", color="blue", markersize=3)
+    ax[1].plot([0, -25], [-2, 25-2], "--", color="blue", markersize=3)
+
+
+    xticks = np.arange(0, -n_max-1, -5)
+    ax[0].set_xticks(xticks)
+    ax[1].set_xticks(xticks)
+    xticklabels = [f'$2^{{{l}}}$' for l in xticks]
+    ax[0].set_xticklabels(xticklabels)
+    ax[1].set_xticklabels(xticklabels)
+    #
+    yticks = np.arange(-10, 30, 5)
+    ax[0].set_yticks(yticks)
+    ax[1].set_yticks(yticks)
+    yticklabels = [f'$2^{{{l}}}$' for l in yticks]
+    ax[0].set_yticklabels(yticklabels)
+    ax[1].set_yticklabels(yticklabels)
+    #
+    ax[0].set_xlabel("Относительный размер, $x/x_0$")
+    ax[1].set_xlabel("Относительный размер, $x/x_0$")
+    ax[0].set_ylabel("Концентрация частиц, $c(x,t)/N_0$")
+    ax[1].set_ylabel("Концентрация частиц, $c(x,t)/N_0$")
+    ax[0].set_ylim([-10, 25])
+    ax[1].set_ylim([-10, 25])
+    ax[0].set_xlim([-28, 0])
+    ax[1].set_xlim([-28, 0])
     plt.show()
 
 
