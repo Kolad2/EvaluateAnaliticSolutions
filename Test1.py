@@ -73,7 +73,6 @@ def get_c(n_max, t=1):
         numerator = mp.power(t, n)  # (2pt)^n
         factorial_n = mp.factorial(n)  # n!
         c[n] = (numerator / factorial_n) * exp_t
-
     return c
 
 
