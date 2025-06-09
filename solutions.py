@@ -45,7 +45,7 @@ def c_tr_pow(n_max, t = 1, q = 0.5):
     return c
 
 
-def c_tr_pow_limited(n, q=0.5, max_terms=1000):
+def c_tr_pow_limited(n, q=0.5, max_terms=20):
     r"""
     Вычисляет N_n по формуле:
     c_n = \frac{2^n}{(q;q)_{\infty}} \sum_{j=0}^{\infty} (-1)^j \frac{q^{j(j-1)/2}}{(q;q)_j} e^{-q^{n-j}}
