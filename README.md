@@ -1,4 +1,12 @@
 # EvaluateAnaliticSolutions
+
+```
+pip install numpy
+pip install matplotlib
+pip install mpmath
+pip install scipy
+```
+
 ## Колмогоровское решение
 
 $$

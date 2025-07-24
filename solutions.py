@@ -76,3 +76,9 @@ def c_tr_pow_limited(n, q=0.5, max_terms=20):
 
     res = res / qpoch_inf
     return float(res)
+
+
+def c_pow_pow(n, a, b, t=1):
+    gamma = (b + 2)/a
+    res = 2.0 ** (-n*b) * (1 - 2.0 ** (-n*a)) ** gamma * np.exp((1-2.0**(-n*a))*t)
+    return res
