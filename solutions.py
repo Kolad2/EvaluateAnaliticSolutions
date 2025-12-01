@@ -63,7 +63,7 @@ def c_tr_pow_limited(n, q=0.5, max_terms=20):
     n = mp.mpf(n)
 
     qpoch = QPochhammer(q)
-    qpoch_inf = qpoch(q, 41) # (q;q)_\infty
+    qpoch_inf = qpoch(q, 41)  # (q;q)_\infty
     # Вычисляем сумму
     res = mp.mpf(0)
     sign = 1
