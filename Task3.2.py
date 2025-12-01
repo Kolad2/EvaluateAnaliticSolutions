@@ -9,7 +9,7 @@ def main():
     #generate_data()
     
     a_s, sigma_s = load_data()
-
+    sigma_s = sigma_s * np.log(2)
     K = np.mean(a_s * sigma_s ** 2)
     print(K, np.sqrt(K))
 
