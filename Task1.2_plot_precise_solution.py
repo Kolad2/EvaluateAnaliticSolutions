@@ -11,37 +11,38 @@ def main():
 	q = 0.90
 	t = 0
 	n_max = 60
-	t = np.array([1.0, 5.0, 25.0*q**(-30), 25.0*q**(-45)])
+	t = np.array([5.0, 25.0*q**(-16), 25.0*q**(-40)])
 	lt = np.array([20, 50, 100])
 	n = np.arange(0, n_max)
 	#%%
 	c_q = [c_tr_pow(n_max, _t, q) for _t in t]
 	c = [c_tr_const(n_max, 0.5*_t) for _t in lt]
+	marker_type = ["o","s","D"]
 
 	fig = plt.figure(figsize=(10, 5))
 	ax = [fig.add_subplot(1,2,i+1) for i in range(2)]
-	for _c in c:
+	for i, _c in enumerate(c):
 		_c = mask_keep_gap_edges(_c, 0.001)
 		_fit_n, _fit_c, rmse = get_lognorm_fit(n, _c)
-		#print(np.nansum(_c))
-		ax[0].plot(_fit_n, _fit_c, "-", linewidth=2, color="blue")
-		ax[0].plot(n, _c, "-o", color="black", markersize=3)
-	for _c in c_q:
+		ax[0].plot(-_fit_n, _fit_c, "-", linewidth=2, color="blue")
+		ax[0].plot(-n, _c, marker_type[i], color="black", markersize=3)
+	for i, _c in enumerate(c_q):
 		_c = mask_keep_gap_edges(_c)
 		print(np.nansum(_c))
 		_fit_n, _fit_c, rmse = get_lognorm_fit(n, _c)
 		print("error: ", rmse)
-		ax[1].plot(_fit_n, _fit_c, "-", linewidth=2, color="blue")
-		ax[1].plot(n, _c, "-o", color="black", markersize=3)
+		ax[1].plot(-_fit_n, _fit_c, "-", linewidth=2, color="blue")
+		ax[1].plot(-n, _c, marker_type[i], color="black", markersize=3)
 
 	n_max_10 = np.ceil(n_max * np.log(2) / np.log(10))
-# xticks_10 = np.arange(0, -n_max_10-1, -4)
-	# xticks = xticks_10*(np.log(10)/np.log(2))
-	# ax[0].set_xticks(xticks)
-	# ax[1].set_xticks(xticks)
-	# xticklabels = [f'$10^{{{int(l)}}}$' for l in xticks_10]
-	# ax[0].set_xticklabels(xticklabels)
-	# ax[1].set_xticklabels(xticklabels)
+	xticks_10 = np.arange(0, -n_max_10-1, -4)
+	xticks = xticks_10*(np.log(10)/np.log(2))
+	ax[1].set_xlim(ax[0].get_xlim())
+	ax[0].set_xticks(xticks)
+	ax[1].set_xticks(xticks)
+	xticklabels = [f'$10^{{{int(l)}}}$' for l in xticks_10]
+	ax[0].set_xticklabels(xticklabels)
+	ax[1].set_xticklabels(xticklabels)
 	#
 	n_max_10 = np.ceil(n_max * np.log(2) / np.log(10))
 	# yticks_10 = np.arange(0, n_max_10 - 1, 4)
@@ -52,10 +53,10 @@ def main():
 	# ax[0].set_yticklabels(yticklabels)
 	# ax[1].set_yticklabels(yticklabels)
 	#
-	ax[0].set_xlabel("Относительный размер, $x/x_0$")
-	ax[1].set_xlabel("Относительный размер, $x/x_0$")
-	ax[0].set_ylabel("Концентрация частиц, $c(x,t)/N_0$")
-	ax[1].set_ylabel("Концентрация частиц, $c(x,t)/N_0$")
+	ax[0].set_xlabel("Relative size, $x/x_0$")
+	ax[1].set_xlabel("Relative size, $x/x_0$")
+	ax[0].set_ylabel("Particle distribution, $c(x,t)/N(t)$")
+	ax[1].set_ylabel("Particle distribution, $c(x,t)/N(t)$")
 	plt.show()
 
 def mask_keep_gap_edges(y, thr=0.01):
